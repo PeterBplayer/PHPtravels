@@ -1,6 +1,7 @@
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -45,6 +46,30 @@ public class HotelSearchTest {
         Assert.assertEquals(hotelNames.get(1), "Oasis Beach Tower");
         Assert.assertEquals(hotelNames.get(2), "Rose Rayhaan Rotana");
         Assert.assertEquals(hotelNames.get(3), "Hyatt Regency Perth");
+
+    }
+
+    @Test
+    public void resultNotFound() {
+        WebDriverManager.chromedriver().setup();
+        WebDriver driver = new ChromeDriver();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        driver.manage().window().maximize();
+        driver.get("http://www.kurs-selenium.pl/demo/");
+
+        driver.findElement(By.name("checkin")).sendKeys("02/02/2023");
+        driver.findElement(By.name("checkout")).sendKeys("06/02/2023");
+
+        driver.findElement(By.id("travellersInput")).click();
+        driver.findElement(By.id("adultMinusBtn")).click();
+        driver.findElement(By.id("childPlusBtn")).click();
+
+        driver.findElement(By.xpath("//button[text()=' Search']")).click();
+
+        WebElement noResultHeading = driver.findElement(By.xpath("//h2[@class='text-center']"));
+        Assert.assertTrue(noResultHeading.isDisplayed());
+        Assert.assertEquals(noResultHeading.getText(), "No Results Found");
+
 
     }
 }
