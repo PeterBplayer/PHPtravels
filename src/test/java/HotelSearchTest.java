@@ -4,10 +4,11 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
 import java.time.Duration;
 import java.util.List;
 
-public class HotelSearch {
+public class HotelSearchTest {
     @Test
     public void searchHotel() {
         WebDriverManager.chromedriver().setup();
@@ -40,10 +41,10 @@ public class HotelSearch {
                 .map(element -> element.getAttribute("textContent"))
                 .toList();
 
-        Assert.assertEquals(hotelNames.get(0),"Jumeirah Beach Hotel");
-        Assert.assertEquals(hotelNames.get(1),"Oasis Beach Tower");
-        Assert.assertEquals(hotelNames.get(2),"Rose Rayhaan Rotana");
-        Assert.assertEquals(hotelNames.get(3),"Hyatt Regency Perth");
+        Assert.assertEquals(hotelNames.get(0), "Jumeirah Beach Hotel");
+        Assert.assertEquals(hotelNames.get(1), "Oasis Beach Tower");
+        Assert.assertEquals(hotelNames.get(2), "Rose Rayhaan Rotana");
+        Assert.assertEquals(hotelNames.get(3), "Hyatt Regency Perth");
 
     }
 }
