@@ -1,24 +1,15 @@
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
-import java.time.Duration;
 import java.util.List;
 
-public class SignUpTest {
-    @Test
-    public void signUp() {
-        WebDriverManager.chromedriver().setup();
-        WebDriver driver = new ChromeDriver();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        driver.manage().window().maximize();
-        driver.get("http://www.kurs-selenium.pl/demo/");
+public class SignUpTest extends BaseTest {
 
+    @Test
+    public void signUpTest() {
 
         driver.findElements(By.xpath("//li[@id='li_myaccount']"))
                 .stream()
@@ -43,17 +34,10 @@ public class SignUpTest {
 
         WebElement heading = driver.findElement(By.xpath("//h3[@class='RTL']"));
         Assert.assertEquals(heading.getText(), "Hi, Bu Kropel");
-
     }
 
     @Test
-    public void emptyForm() {
-        WebDriverManager.chromedriver().setup();
-        WebDriver driver = new ChromeDriver();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        driver.manage().window().maximize();
-        driver.get("http://www.kurs-selenium.pl/demo/");
-
+    public void emptyFormTest() {
 
         driver.findElements(By.xpath("//li[@id='li_myaccount']"))
                 .stream()
@@ -77,17 +61,10 @@ public class SignUpTest {
         softAssert.assertTrue(validationAlerts.contains("The First name field is required."));
         softAssert.assertTrue(validationAlerts.contains("The Last Name field is required."));
         softAssert.assertAll();
-
     }
 
     @Test
-    public void invalidEmail() {
-        WebDriverManager.chromedriver().setup();
-        WebDriver driver = new ChromeDriver();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        driver.manage().window().maximize();
-        driver.get("http://www.kurs-selenium.pl/demo/");
-
+    public void invalidEmailTest() {
 
         driver.findElements(By.xpath("//li[@id='li_myaccount']"))
                 .stream()
@@ -114,7 +91,5 @@ public class SignUpTest {
                 .toList();
 
         Assert.assertTrue(alerts.contains("The Email field must contain a valid email address."));
-
-
     }
 }

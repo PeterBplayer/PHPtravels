@@ -1,22 +1,14 @@
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.time.Duration;
 import java.util.List;
 
-public class HotelSearchTest {
+public class HotelSearchTest extends BaseTest {
+
     @Test
-    public void searchHotel() {
-        WebDriverManager.chromedriver().setup();
-        WebDriver driver = new ChromeDriver();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        driver.manage().window().maximize();
-        driver.get("http://www.kurs-selenium.pl/demo/");
+    public void searchHotelTest() {
 
         driver.findElement(By.xpath("//span[text()='Search by Hotel or City Name']")).click();
         driver.findElement(By.xpath("//div[@id='select2-drop']//input")).sendKeys("Dubai");
@@ -50,12 +42,7 @@ public class HotelSearchTest {
     }
 
     @Test
-    public void resultNotFound() {
-        WebDriverManager.chromedriver().setup();
-        WebDriver driver = new ChromeDriver();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        driver.manage().window().maximize();
-        driver.get("http://www.kurs-selenium.pl/demo/");
+    public void resultNotFoundTest() {
 
         driver.findElement(By.name("checkin")).sendKeys("02/02/2023");
         driver.findElement(By.name("checkout")).sendKeys("06/02/2023");
@@ -69,7 +56,6 @@ public class HotelSearchTest {
         WebElement noResultHeading = driver.findElement(By.xpath("//h2[@class='text-center']"));
         Assert.assertTrue(noResultHeading.isDisplayed());
         Assert.assertEquals(noResultHeading.getText(), "No Results Found");
-
 
     }
 }
