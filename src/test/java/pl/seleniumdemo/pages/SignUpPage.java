@@ -4,13 +4,16 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import pl.seleniumdemo.model.User;
 
 import java.util.List;
 
 public class SignUpPage {
+
+    private WebDriver driver;
+
     public SignUpPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
+        this.driver = driver;
     }
 
     @FindBy(name = "firstname")
@@ -30,50 +33,40 @@ public class SignUpPage {
     @FindBy(xpath = "//div[@class='alert alert-danger']/p")
     private List<WebElement> validationAlerts;
 
-    public void setFirstName(String firstName) {
+    public SignUpPage setFirstName(String firstName) {
         firstNameInput.sendKeys(firstName);
+        return this;
     }
 
-    public void setLastName(String lastName) {
+    public SignUpPage setLastName(String lastName) {
         lastNameInput.sendKeys(lastName);
+        return this;
     }
 
-    public void setPhone(String phoneNo) {
+    public SignUpPage setPhone(String phoneNo) {
         phoneInput.sendKeys(phoneNo);
+        return this;
     }
 
-    public void setEmail(String email) {
+    public SignUpPage setEmail(String email) {
         emailInput.sendKeys(email);
+        return this;
     }
 
-    public void setPassword(String password) {
+    public SignUpPage setPassword(String password) {
         passwordInput.sendKeys(password);
+        return this;
     }
 
-    public void setConfirmPassword(String password) {
+    public SignUpPage setConfirmPassword(String password) {
         confirmPasswordInput.sendKeys(password);
+        return this;
     }
 
-    public void fillSignUpForm(String firstName, String lastName, String phoneNo, String email, String password) {
-        firstNameInput.sendKeys(firstName);
-        lastNameInput.sendKeys(lastName);
-        phoneInput.sendKeys(phoneNo);
-        emailInput.sendKeys(email);
-        passwordInput.sendKeys(password);
-        confirmPasswordInput.sendKeys(password);
-    }
 
-    public void fillSignUpForm(User user) {
-        firstNameInput.sendKeys(user.getFirstName());
-        lastNameInput.sendKeys(user.getLastName());
-        phoneInput.sendKeys(user.getPhoneNo());
-        emailInput.sendKeys(user.getEmail());
-        passwordInput.sendKeys(user.getPassword());
-        confirmPasswordInput.sendKeys(user.getPassword());
-    }
-
-    public void signUp() {
+    public LoggedUserPage signUp() {
         singUpBtn.click();
+        return new LoggedUserPage(driver);
     }
 
     public List<String> getValidationAlerts() {
