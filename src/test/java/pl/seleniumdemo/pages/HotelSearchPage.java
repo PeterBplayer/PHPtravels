@@ -41,16 +41,18 @@ public class HotelSearchPage {
     @FindBy(xpath = "//a[text() ='  Sign Up']")
     private List<WebElement> signUpLink;
 
-    public void setCity(String cityName) {
+    public HotelSearchPage setCity(String cityName) {
         searchHotelSpan.click();
         searchHotelInput.sendKeys(cityName);
         String xpath = String.format("//span[@class='select2-match' and text()='%s']", cityName);
         driver.findElement(By.xpath(xpath)).click();
+        return this;
     }
 
-    public void setDates(String checkin, String checkout) {
+    public HotelSearchPage setDates(String checkin, String checkout) {
         checkInInput.sendKeys(checkin);
         checkOutInput.sendKeys(checkout);
+        return this;
     }
 
     private void addTraveler(WebElement travelerBtn, int numberOfTravelers) {
@@ -59,7 +61,7 @@ public class HotelSearchPage {
         }
     }
 
-    public void setTravellers(String adultAddRemove, int adultsToAdd, String childAddRemove, int childToAdd) {
+    public HotelSearchPage setTravellers(String adultAddRemove, int adultsToAdd, String childAddRemove, int childToAdd) {
         travellersInput.click();
         if (adultAddRemove.equals("+")) {
             addTraveler(adultPlusBtn, adultsToAdd);
@@ -71,11 +73,12 @@ public class HotelSearchPage {
         } else if (childAddRemove.equals("-")) {
             addTraveler(childMinusBtn, childToAdd);
         }
-
+        return this;
     }
 
-    public void performSearch() {
+    public ResultsPage performSearch() {
         searchBtn.click();
+        return new ResultsPage(driver);
     }
 
     public void openSignUpForm() {

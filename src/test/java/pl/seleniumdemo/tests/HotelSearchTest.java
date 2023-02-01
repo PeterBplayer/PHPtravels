@@ -13,14 +13,14 @@ public class HotelSearchTest extends BaseTest {
     public void searchHotelTest() {
 
         HotelSearchPage hotelSearchPage = new HotelSearchPage(driver);
-        hotelSearchPage.setCity("Dubai");
-        hotelSearchPage.setDates("04/04/2023", "15/04/2023");
-        hotelSearchPage.setTravellers("+", 1, "+", 2);
-        hotelSearchPage.performSearch();
+//        Zapis typu fluent
+        List<String> hotelNames =
+                hotelSearchPage.setCity("Dubai")
+                        .setDates("04/04/2023", "15/04/2023")
+                        .setTravellers("+", 1, "+", 2)
+                        .performSearch()
+                        .getHotelNames();
 
-        ResultsPage resultsPage = new ResultsPage(driver);
-
-        List<String> hotelNames = resultsPage.getHotelNames();
 
         Assert.assertEquals(hotelNames.get(0), "Jumeirah Beach Hotel");
         Assert.assertEquals(hotelNames.get(1), "Oasis Beach Tower");
