@@ -3,6 +3,7 @@ package pl.seleniumdemo.tests;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
+import pl.seleniumdemo.model.User;
 import pl.seleniumdemo.pages.HotelSearchPage;
 import pl.seleniumdemo.pages.LoggedUserPage;
 import pl.seleniumdemo.pages.SignUpPage;
@@ -44,12 +45,21 @@ public class SignUpTest extends BaseTest {
         int randomNumber = (int) (Math.random() * 1000);
         String email = "ping.buba" + randomNumber + "@poczta.pl";
 
+        User user = new User();
+        user.setFirstName("Buba");
+        user.setLastName("Pingwin");
+        user.setPhoneNo("11122233");
+        user.setEmail(email);
+        user.setPassword("Testowe321");
+
         SignUpPage signUpPage = new SignUpPage(driver);
-        signUpPage.fillSignUpForm("Buba", "Pingwin", "11122233", email, "Testowe321");
+        signUpPage.fillSignUpForm(user);
+//        signUpPage.fillSignUpForm("Buba", "Pingwin", "11122233", email, "Testowe321"); // Alternatywa dla powyższego
         signUpPage.signUp();
 
         LoggedUserPage loggedUserPage = new LoggedUserPage(driver);
 
+        Assert.assertTrue(loggedUserPage.getHeadingText().contains(user.getLastName()));
         Assert.assertEquals(loggedUserPage.getHeadingText(), "Hi, Buba Pingwin");
     }
 
