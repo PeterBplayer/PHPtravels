@@ -1,5 +1,6 @@
 package pl.seleniumdemo.pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -10,8 +11,6 @@ public class HotelSearchPage {
     private WebElement searchHotelSpan;
     @FindBy(xpath = "//div[@id='select2-drop']//input")
     private WebElement searchHotelInput;
-    @FindBy(xpath = "//span[@class='select2-match' and text()='Dubai']")
-    private WebElement hotelMatch;
     @FindBy(name = "checkin")
     private WebElement checkInInput;
     @FindBy(name = "checkout")
@@ -29,14 +28,18 @@ public class HotelSearchPage {
     @FindBy(xpath = "//button[text()=' Search']")
     private WebElement searchBtn;
 
+    private WebDriver driver;
+
     public HotelSearchPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
+        this.driver = driver;
     }
 
     public void setCity(String cityName) {
         searchHotelSpan.click();
         searchHotelInput.sendKeys(cityName);
-        hotelMatch.click();
+        String xpath = String.format("//span[@class='select2-match' and text()='%s']",cityName);
+        driver.findElement(By.xpath(xpath)).click();
     }
 
     public void setDates(String checkin, String checkout) {
@@ -44,10 +47,24 @@ public class HotelSearchPage {
         checkOutInput.sendKeys(checkout);
     }
 
-    public void setTravellers() {
+    private void addTraveler (WebElement travelerBtn, int numberOfTravelers) {
+        for (int i = 0; i < numberOfTravelers; i++)  {
+            travelerBtn.click();
+        }
+    }
+    public void setTravellers(String adultAddRemove, int adultsToAdd, String childAddRemove, int childToAdd) {
         travellersInput.click();
-        adultPlusBtn.click();
-        childPlusBtn.click();
+        if (adultAddRemove.equals("+")) {
+            addTraveler(adultPlusBtn, adultsToAdd);
+        } else if (adultAddRemove.equals("-")) {
+            addTraveler(adultMinusBtn, adultsToAdd);
+        }
+        if (childAddRemove.equals("+")) {
+            addTraveler(childPlusBtn, childToAdd);
+        } else if (childAddRemove.equals("-")) {
+            addTraveler(childMinusBtn, childToAdd);
+        }
+
     }
 
     public void performSearch() {
