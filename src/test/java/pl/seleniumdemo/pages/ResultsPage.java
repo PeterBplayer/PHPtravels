@@ -9,14 +9,14 @@ import java.util.List;
 
 public class ResultsPage {
 
-    @FindBy(xpath = "//h4[contains(@class,'list_title')]//b")
-    private List<WebElement> hotelLists;
-    @FindBy(xpath = "//h2[@class='text-center']")
-    public WebElement  noResultHeading;
-
     public ResultsPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
     }
+
+    @FindBy(xpath = "//h4[contains(@class,'list_title')]//b")
+    private List<WebElement> hotelLists;
+    @FindBy(xpath = "//h2[@class='text-center']")
+    public WebElement noResultHeading;
 
     public List<String> getHotelNames() {
         return hotelLists.stream()

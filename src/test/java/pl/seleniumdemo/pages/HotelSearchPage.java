@@ -6,7 +6,16 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+import java.util.List;
+
 public class HotelSearchPage {
+    private WebDriver driver;
+
+    public HotelSearchPage(WebDriver driver) {
+        PageFactory.initElements(driver, this);
+        this.driver = driver;
+    }
+
     @FindBy(xpath = "//span[text()='Search by Hotel or City Name']")
     private WebElement searchHotelSpan;
     @FindBy(xpath = "//div[@id='select2-drop']//input")
@@ -27,18 +36,15 @@ public class HotelSearchPage {
     private WebElement childMinusBtn;
     @FindBy(xpath = "//button[text()=' Search']")
     private WebElement searchBtn;
-
-    private WebDriver driver;
-
-    public HotelSearchPage(WebDriver driver) {
-        PageFactory.initElements(driver, this);
-        this.driver = driver;
-    }
+    @FindBy(xpath = "//li[@id='li_myaccount']")
+    private List<WebElement> myAccountLink;
+    @FindBy(xpath = "//a[text() ='  Sign Up']")
+    private List<WebElement> signUpLink;
 
     public void setCity(String cityName) {
         searchHotelSpan.click();
         searchHotelInput.sendKeys(cityName);
-        String xpath = String.format("//span[@class='select2-match' and text()='%s']",cityName);
+        String xpath = String.format("//span[@class='select2-match' and text()='%s']", cityName);
         driver.findElement(By.xpath(xpath)).click();
     }
 
@@ -47,11 +53,12 @@ public class HotelSearchPage {
         checkOutInput.sendKeys(checkout);
     }
 
-    private void addTraveler (WebElement travelerBtn, int numberOfTravelers) {
-        for (int i = 0; i < numberOfTravelers; i++)  {
+    private void addTraveler(WebElement travelerBtn, int numberOfTravelers) {
+        for (int i = 0; i < numberOfTravelers; i++) {
             travelerBtn.click();
         }
     }
+
     public void setTravellers(String adultAddRemove, int adultsToAdd, String childAddRemove, int childToAdd) {
         travellersInput.click();
         if (adultAddRemove.equals("+")) {
@@ -70,12 +77,15 @@ public class HotelSearchPage {
     public void performSearch() {
         searchBtn.click();
     }
-            /*driver.findElement(By.name("checkout")).click();
-        driver.findElements(By.xpath("//td[@class='day ' and text()='15']"))
-                .stream()
+
+    public void openSignUpForm() {
+        myAccountLink.stream()
                 .filter(WebElement::isDisplayed)
                 .findFirst()
-                .ifPresent(WebElement::click);*/
+                .ifPresent(WebElement::click);
+        signUpLink.get(1).click();
+    }
+
 
 }
 
