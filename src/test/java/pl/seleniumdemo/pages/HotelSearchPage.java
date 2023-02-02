@@ -72,16 +72,20 @@ public class HotelSearchPage {
     public void setTravellers(String adultAddRemove, int adultsToAdd, String childAddRemove, int childToAdd) {
         travellersInput.click();
         if (adultAddRemove.equals("+")) {
+            SeleniumHelper.waitForElementToBeVisible(driver, adultPlusBtn);
             logger.info("Adding adults: " + adultsToAdd);
             addTraveler(adultPlusBtn, adultsToAdd);
         } else if (adultAddRemove.equals("-")) {
+            SeleniumHelper.waitForElementToBeVisible(driver, adultMinusBtn);
             logger.info("Removing adults: " + adultsToAdd);
             addTraveler(adultMinusBtn, adultsToAdd);
         }
         if (childAddRemove.equals("+")) {
+            SeleniumHelper.waitForElementToBeVisible(driver, childPlusBtn);
             logger.info("Adding child: " + childToAdd);
             addTraveler(childPlusBtn, childToAdd);
         } else if (childAddRemove.equals("-")) {
+            SeleniumHelper.waitForElementToBeVisible(driver, childMinusBtn);
             logger.info("Removing child: " + childToAdd);
             addTraveler(childMinusBtn, childToAdd);
         }
