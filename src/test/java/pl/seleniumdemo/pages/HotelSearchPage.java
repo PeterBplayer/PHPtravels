@@ -1,5 +1,7 @@
 package pl.seleniumdemo.pages;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -10,6 +12,8 @@ import java.util.List;
 
 public class HotelSearchPage {
     private WebDriver driver;
+
+    private static final Logger logger = LogManager.getLogger();
 
     public HotelSearchPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
@@ -42,15 +46,19 @@ public class HotelSearchPage {
     private List<WebElement> signUpLink;
 
     public void setCity(String cityName) {
+        logger.info("Setting city " + cityName);
         searchHotelSpan.click();
         searchHotelInput.sendKeys(cityName);
         String xpath = String.format("//span[@class='select2-match' and text()='%s']", cityName);
         driver.findElement(By.xpath(xpath)).click();
+        logger.info("Setting city done");
     }
 
     public void setDates(String checkin, String checkout) {
+        logger.info("Setting dates check-in: " + checkin + " check-out " + checkout);
         checkInInput.sendKeys(checkin);
         checkOutInput.sendKeys(checkout);
+        logger.info("Setting dates done");
     }
 
     private void addTraveler(WebElement travelerBtn, int numberOfTravelers) {
@@ -62,15 +70,20 @@ public class HotelSearchPage {
     public void setTravellers(String adultAddRemove, int adultsToAdd, String childAddRemove, int childToAdd) {
         travellersInput.click();
         if (adultAddRemove.equals("+")) {
+            logger.info("Adding adults: " + adultsToAdd);
             addTraveler(adultPlusBtn, adultsToAdd);
         } else if (adultAddRemove.equals("-")) {
+            logger.info("Removing adults" + adultsToAdd);
             addTraveler(adultMinusBtn, adultsToAdd);
         }
         if (childAddRemove.equals("+")) {
+            logger.info("Adding child: " + childToAdd);
             addTraveler(childPlusBtn, childToAdd);
         } else if (childAddRemove.equals("-")) {
+            logger.info("Removing child" + childToAdd);
             addTraveler(childMinusBtn, childToAdd);
         }
+        logger.info("Set travellers done");
     }
 
     public void performSearch() {

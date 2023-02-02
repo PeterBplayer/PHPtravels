@@ -8,12 +8,12 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 public class DriverFactory {
 
     public static WebDriver getDriver(String name) {
-        if (name.equals("chrome")) {
-            WebDriverManager.chromedriver().setup();
-            return new ChromeDriver();
-        } else {
+        if (name.equals("firefox")) {
             WebDriverManager.firefoxdriver().setup();
             return new FirefoxDriver();
+        } else {
+            WebDriverManager.chromedriver().setup();
+            return new ChromeDriver();
         }
     }
 }
