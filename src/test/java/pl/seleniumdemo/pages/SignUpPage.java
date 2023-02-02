@@ -1,5 +1,7 @@
 package pl.seleniumdemo.pages;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -12,6 +14,7 @@ import java.util.List;
 
 public class SignUpPage {
     private WebDriver driver;
+    private static final Logger logger = LogManager.getLogger();
     public SignUpPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
         this.driver = driver;
@@ -35,30 +38,37 @@ public class SignUpPage {
     private List<WebElement> validationAlerts;
 
     public void setFirstName(String firstName) {
+        logger.info("Setting first name: " + firstName);
         firstNameInput.sendKeys(firstName);
     }
 
     public void setLastName(String lastName) {
+        logger.info("Setting last name: " + lastName);
         lastNameInput.sendKeys(lastName);
     }
 
     public void setPhone(String phoneNo) {
+        logger.info("Setting phone number: " + phoneNo);
         phoneInput.sendKeys(phoneNo);
     }
 
     public void setEmail(String email) {
+        logger.info("Setting email: " + email);
         emailInput.sendKeys(email);
     }
 
     public void setPassword(String password) {
+        logger.info("Setting password: " + password);
         passwordInput.sendKeys(password);
     }
 
     public void setConfirmPassword(String password) {
+        logger.info("Confirm password: " + password);
         confirmPasswordInput.sendKeys(password);
     }
 
     public void fillSignUpForm(String firstName, String lastName, String phoneNo, String email, String password) {
+        logger.info("Filling up form...");
         firstNameInput.sendKeys(firstName);
         lastNameInput.sendKeys(lastName);
         phoneInput.sendKeys(phoneNo);
@@ -68,6 +78,7 @@ public class SignUpPage {
     }
 
     public void fillSignUpForm(User user) {
+        logger.info("Filling up form...");
         firstNameInput.sendKeys(user.getFirstName());
         lastNameInput.sendKeys(user.getLastName());
         phoneInput.sendKeys(user.getPhoneNo());
