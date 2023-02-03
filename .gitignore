@@ -6,3 +6,5 @@
 /.idea/misc.xml
 /.idea/vcs.xml
 /target/
+/index.html
+/src/test/resources/screenshots/
