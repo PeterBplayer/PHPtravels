@@ -1,5 +1,7 @@
 package pl.seleniumdemo.tests;
 
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.Status;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -7,14 +9,17 @@ import pl.seleniumdemo.model.User;
 import pl.seleniumdemo.pages.HotelSearchPage;
 import pl.seleniumdemo.pages.LoggedUserPage;
 import pl.seleniumdemo.pages.SignUpPage;
+import pl.seleniumdemo.utils.SeleniumHelper;
 
+import java.io.IOException;
 import java.util.List;
 
 public class SignUpTest extends BaseTest {
 
     @Test
-    public void signUpTest() {
+    public void signUpTest() throws IOException {
 
+        ExtentTest test = extentReports.createTest("Sign Up Test");
         HotelSearchPage hotelSearchPage = new HotelSearchPage(driver);
         hotelSearchPage.openSignUpForm();
 
@@ -23,22 +28,32 @@ public class SignUpTest extends BaseTest {
 
         SignUpPage signUpPage = new SignUpPage(driver);
         signUpPage.setFirstName("Bu");
+        test.log(Status.PASS, "Setting first name success", SeleniumHelper.getScreenshot(driver));
         signUpPage.setLastName("Kropel");
+        test.log(Status.PASS, "Setting last name success", SeleniumHelper.getScreenshot(driver));
         signUpPage.setPhone("123456789");
+        test.log(Status.PASS, "Setting phone number success", SeleniumHelper.getScreenshot(driver));
         signUpPage.setEmail(email);
+        test.log(Status.PASS, "Setting email success", SeleniumHelper.getScreenshot(driver));
         signUpPage.setPassword("Test123");
+        test.log(Status.PASS, "Setting password success", SeleniumHelper.getScreenshot(driver));
         signUpPage.setConfirmPassword("Test123");
+        test.log(Status.PASS, "Setting confirming password success", SeleniumHelper.getScreenshot(driver));
 
         signUpPage.signUp();
+
 
         LoggedUserPage loggedUserPage = new LoggedUserPage(driver);
 
         Assert.assertEquals(loggedUserPage.getHeadingText(), "Hi, Bu Kropel");
+        test.log(Status.PASS, "Assertions passed", SeleniumHelper.getScreenshot(driver));
+
     }
 
     @Test
-    public void signUpTestAlt() {
+    public void signUpTestAlt() throws IOException {
 
+        ExtentTest test = extentReports.createTest("Alternative Sign Up Test");
         HotelSearchPage hotelSearchPage = new HotelSearchPage(driver);
         hotelSearchPage.openSignUpForm();
 
@@ -54,6 +69,7 @@ public class SignUpTest extends BaseTest {
 
         SignUpPage signUpPage = new SignUpPage(driver);
         signUpPage.fillSignUpForm(user);
+        test.log(Status.PASS, "Setting user credentials success", SeleniumHelper.getScreenshot(driver));
 //        signUpPage.fillSignUpForm("Buba", "Pingwin", "11122233", email, "Testowe321"); // Alternatywa dla powyższego
         signUpPage.signUp();
 
@@ -61,16 +77,19 @@ public class SignUpTest extends BaseTest {
 
         Assert.assertTrue(loggedUserPage.getHeadingText().contains(user.getLastName()));
         Assert.assertEquals(loggedUserPage.getHeadingText(), "Hi, Buba Pingwin");
+        test.log(Status.PASS, "Assertions passed", SeleniumHelper.getScreenshot(driver));
     }
 
     @Test
-    public void emptyFormTest() {
+    public void emptyFormTest() throws IOException {
 
+        ExtentTest test = extentReports.createTest("Empty Form Sign Up Test");
         HotelSearchPage hotelSearchPage = new HotelSearchPage(driver);
         hotelSearchPage.openSignUpForm();
 
         SignUpPage signUpPage = new SignUpPage(driver);
         signUpPage.signUp();
+        test.log(Status.PASS, "Trying sign up with empty fields success", SeleniumHelper.getScreenshot(driver));
 
         List<String> validationAlerts = signUpPage.getValidationAlerts();
 
@@ -80,11 +99,13 @@ public class SignUpTest extends BaseTest {
         softAssert.assertTrue(validationAlerts.contains("The First name field is required."));
         softAssert.assertTrue(validationAlerts.contains("The Last Name field is required."));
         softAssert.assertAll();
+        test.log(Status.PASS, "Assertions passed", SeleniumHelper.getScreenshot(driver));
     }
 
     @Test
-    public void invalidEmailTest() {
+    public void invalidEmailTest() throws IOException {
 
+        ExtentTest test = extentReports.createTest("Invalid Email Sign Up Test");
         HotelSearchPage hotelSearchPage = new HotelSearchPage(driver);
         hotelSearchPage.openSignUpForm();
 
@@ -93,14 +114,21 @@ public class SignUpTest extends BaseTest {
 
         SignUpPage signUpPage = new SignUpPage(driver);
         signUpPage.setFirstName("Bu");
+        test.log(Status.PASS, "Setting first name success", SeleniumHelper.getScreenshot(driver));
         signUpPage.setLastName("Kropel");
+        test.log(Status.PASS, "Setting last name success", SeleniumHelper.getScreenshot(driver));
         signUpPage.setPhone("123456789");
+        test.log(Status.PASS, "Setting phone number success", SeleniumHelper.getScreenshot(driver));
         signUpPage.setEmail(invalidEmail);
+        test.log(Status.PASS, "Setting invalid email success", SeleniumHelper.getScreenshot(driver));
         signUpPage.setPassword("Test123");
+        test.log(Status.PASS, "Setting password success", SeleniumHelper.getScreenshot(driver));
         signUpPage.setConfirmPassword("Test123");
+        test.log(Status.PASS, "Setting confirming password success", SeleniumHelper.getScreenshot(driver));
 
         signUpPage.signUp();
 
         Assert.assertTrue(signUpPage.getValidationAlerts().contains("The Email field must contain a valid email address."));
+        test.log(Status.PASS, "Assertions passed", SeleniumHelper.getScreenshot(driver));
     }
 }
